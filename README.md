@@ -42,8 +42,8 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `kmt09b` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  |  $${\color{red}Required}$$| | | 
 | `gk11` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
-| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default \space provided}$$ | $${\color{yellow}Default \space provided}$$| 
-| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default \space provided}$$| | 
+| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| 
+| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| | 
 | `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
 | `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
 
@@ -52,8 +52,8 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `kmt09b` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  |  $${\color{red}Required}$$| | | 
 | `gk11` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | 
-| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default \space provided}$$ | $${\color{yellow}Default \space provided}$$| 
-| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default \space provided}$$| | 
+| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| 
+| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| | 
 | `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
 | `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | | | 
 
