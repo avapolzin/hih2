@@ -106,7 +106,11 @@ def kmt09b(nh, z, l, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
 		z (arr-like): metallicity in solar units
 		u (arr-like): normalized UV field strength
 		l (arr-like): scale of grid cell in cm
+		dens_unit (astropy units object): units attached to input nh
+		scale_unit (astropy units object): units attached to input scale
 	"""
+	nh *= dens_unit.to(u.cm**-3).value # convert units if necessary
+	scale *= scale_unit.to(u.cm).value
 
 	sig_comp = nh*l*c.m_p.to(uu.g).value #should be on 100 pc scales, but will see if this works
 
@@ -119,7 +123,7 @@ def kmt09b(nh, z, l, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
 
 	return fmol
 
-def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
+def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10, dens_unit = u.cm**-3, scale_unit = u.cm):
 	"""
 	Return molecular fraction from Krumholz (2013)
 
@@ -131,7 +135,12 @@ def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 		fc (int) : ~Unity on scales <~100 pc. Scales ~1 kpc -> fc = 5.
 		iter (bool): If iter, iterate niter times to compute fmol.
 		niter (int): Number of iterations since fmol necessary to compute fmol.
+		dens_unit (astropy units object): units attached to input nh
+		scale_unit (astropy units object): units attached to input scale
 	"""
+	nh *= dens_unit.to(u.cm**-3).value # convert units if necessary
+	scale *= scale_unit.to(u.cm).value
+
 	a = 5
 	cw = 8*u.km/u.s
 	fw = 0.5
@@ -183,7 +192,7 @@ def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 
 	return fmol
 
-def s14(nh, z, uv, l, fc = 1):
+def s14(nh, met, uv, scale, fc = 1, dens_unit = u.cm**-3, scale_unit = u.cm):
 	"""
 	Return molecular fraction from Sternberg et al. (2014)
 
@@ -191,17 +200,22 @@ def s14(nh, z, uv, l, fc = 1):
 
 	Parameters: 
 		nh (arr-like): neutral hydrogen number density (cm^-3)
-		z (arr-like): metallicity in solar units
-		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
+		met (arr-like): metallicity in solar units
+		uv (arr-like): normalized UV field strength
+		scale (arr-like): scale of grid cell in cm
 		fc (int): clumping factor
+		dens_unit (astropy units object): units attached to input nh
+		scale_unit (astropy units object): units attached to input scale
 	"""
-	g = 3e-5 * z * (9.9/(1 + 8.9*z))
+	nh *= dens_unit.to(u.cm**-3).value # convert units if necessary
+	scale *= scale_unit.to(u.cm).value
+
+	g = 3e-5 * met * (9.9/(1 + 8.9*met))
 	d0 = 5.8e-11*uv #s-1
 	r = 3e-17 #cm-3 s-1
 	ag = (d0*g)/(r*nh)
-	nhi = 5.3e20 * ((1/z) * np.log((ag/fc)/2 + 1)) #cm-2
-	nh_ = nh*l
+	nhi = 5.3e20 * ((1/met) * np.log((ag/fc)/2 + 1)) #cm-2
+	nh_ = nh*scale
 
 	fmol = 1 - nhi/nh_
 	fmol[nhi > nh_] = 0

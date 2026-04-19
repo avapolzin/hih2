@@ -27,11 +27,11 @@ Included models are:
 
 Volumetric models are in `hih2.vol` and projected models are in `hih2.proj`. All syntax is the same between those modules. It's very simple, so the docstrings are largely sufficient and limited documentation follows here:
 
-All models take as arguments `nh` (hydrogen number density if `hih2.vol` -- cm<sup>-3</sup> by default -- or hydrogen column density if `hih2.proj` -- cm<sup>-2</sup> by default) and `met` (solar-scaled metallicity). `gk11()` and `p24()` require `uv` (UV field strength). All of the functions in `hih2.proj` also require an `scale` argument, is the size of the grid cells (by default in cm). `hih2.vol.gd14()`, `kmt09b`, `k13`, and `s14` also take a `scale` argument, which follows the convention of `hih2.proj`.
+All models take as arguments `nh` (hydrogen number density if `hih2.vol` -- cm<sup>-3</sup> by default -- or hydrogen column density if `hih2.proj` -- cm<sup>-2</sup> by default) and `met` (solar-scaled metallicity). `gk11()`, `k13()`, `s14()`, and `p24()` require `uv` (UV field strength). All of the functions in `hih2.proj` also require an `scale` argument, is the size of the grid cells (by default in cm). `hih2.vol.gd14()`, `kmt09b`, `k13`, and `s14` also take a `scale` argument, which follows the convention of `hih2.proj`.
 
 Both `k13()` and `s14()` functions also take a clumping factor argument, `fc`, and `k13()` additionally takes `rho_sd` (density of stars and dark matter, by default in M<sub>&#9737;</sub> pc<sup>-3</sup>), `iterate` (toggles whether values are computed iteratively), and `niter` (if `iterate = True`, sets number of interations). 
 
-All functions take `dens_unit`, which takes `astropy.units` objects to set the units in which `nh` is reported. `k13()` has an equivalent for `rho_sd` called `sddens_unit`. `hih2.proj` and `hih2.vol.gd14()` take a `scale_unit` argument.
+All functions take `dens_unit`, which takes `astropy.units` objects to set the units in which `nh` is reported. `k13()` has an equivalent for `rho_sd` called `sddens_unit`. All of the functions that require `scale` take a `scale_unit` argument.
 
 Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/(HI + H<sub>2</sub>)) for the input gas density, metallicity, and UV field strength. The implicit assumption of these models is that all gas is neutral and that any ionized component is negligible.
 
