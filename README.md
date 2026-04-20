@@ -42,7 +42,7 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ |  |  ${\color{red}Required}$| | | 
 | `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
-| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$ | ${\color{yellow}De\!fault}$  ${\color{yellow}provided}$| 
+| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$ | $\mathrm{\color{yellow}Default}$  ${\color{yellow}provided}$| 
 | `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$| | 
 | `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
 | `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
