@@ -52,8 +52,8 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ |  |  ${\color{red}Required}$| | | 
 | `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | 
-| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\mathit{\color{yellow}Default}$  $\mathit{\color{yellow}provided}$ | $\mathit{\color{yellow}Default}$  $\mathit{\color{yellow}provided}$| 
-| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\mathit{\color{yellow}Default}$  $\mathit{\color{yellow}provided}$| | 
+| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\mathrm{\color{yellow}Default provided}$ | $\mathrm{\color{yellow}Default}$  $\mathrm{\color{yellow}provided}$| 
+| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\mathrm{\color{yellow}Default}$  $\mathrm{\color{yellow}provided}$| | 
 | `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
 | `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | | 
 
