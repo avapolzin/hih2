@@ -40,22 +40,22 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 **Summary of required and optional parameters in models included in `hih2.vol`**
 | Model | n<sub>H</sub> | metallicity | UV field | scale | f<sub>c</sub> | &rho;<sub>SD</sub> |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `kmt09b` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  |  $${\color{red}Required}$$| | | 
-| `gk11` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
-| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}De\!fault}$$  $${\color{yellow}provided}$$| 
-| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| | 
-| `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
-| `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
+| `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ |  |  ${\color{red}Required}$| | | 
+| `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
+| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$ | ${\color{yellow}De\!fault}$  ${\color{yellow}provided}$| 
+| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$| | 
+| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
+| `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
 
 **Summary of required and optional parameters in models included in `hih2.proj`**
 | Model | N<sub>H</sub> | metallicity | UV field | scale | f<sub>c</sub> | &rho;<sub>SD</sub> |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `kmt09b` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  |  $${\color{red}Required}$$| | | 
-| `gk11` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | 
-| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| 
-| `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| | 
-| `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
-| `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | | | 
+| `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ |  |  ${\color{red}Required}$| | | 
+| `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | 
+| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$| 
+| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{yellow}Default}$  ${\color{yellow}provided}$| | 
+| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
+| `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | | 
 
 
 **How can I access the models in a simple script?** Just like `hih2`, [compare_models.py](https://github.com/avapolzin/blob/main/compare_models.py) includes functions for each of the models on a cell-by-cell basis and projected on different scales; models are stored for use in Python.
