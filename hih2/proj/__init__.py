@@ -1,1 +1,1 @@
-from . import kmt09b, gk11, k13, s14, gd14, p24
+from .proj import kmt09b, gk11, k13, s14, gd14, p24

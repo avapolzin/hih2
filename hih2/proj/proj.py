@@ -55,7 +55,6 @@ def gk11(nh, met, uv, scale = None, dens_unit = u.cm**-2, scale_unit = u.pc):
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-2) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
 	dmw = met
 
 	nh_ = ((nh*u.cm**-2).to(u.pc**-2)*c.m_p.to(u.M_sun)).value #surface density, Msun/pc^2
@@ -122,7 +121,6 @@ def kmt09b(nh, met, uv = None, scale = None, dens_unit = u.cm**-2, scale_unit = 
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-2) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
 
 	sig_comp = nh*c.m_p.to(u.g).value
 
@@ -154,19 +152,14 @@ def k13(nh, met, uv, scale = None, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 
 		sddens_unit (astropy units object): units attached to input rho_sd
 	"""
 	nh *= dens_unit.to(u.cm**-2) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
 	rho_sd *= sddens_unit.to(u.Msun/u.pc**3)
 	
 	a = 5
 	cw = 8*u.km/u.s
 	fw = 0.5
 	zeta_d = 0.33
-	if type(rho_sd) == np.ndarray:
-		## accounting for input from simulation directly
-		rho_sd = rho_sd*u.Msun/(u.pc**3)
-	if type(rho_sd) != np.ndarray:
-		#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
-		rho_sd = rho_sd*u.Msun/u.pc**3 #rho_sd
+	#can set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure though
+	rho_sd = rho_sd*u.Msun/u.pc**3 #rho_sd
 	G = c.G.to(u.pc/u.Msun*(u.km/u.s)**2)
 	## since generally low fH2 regime will take Sigma_HI ~ Sigma_H (see K13, Sec. 2.2)
 	sig0 = (nh*c.m_p.to(u.g).value)*(u.g/u.cm**2).to(u.Msun/u.pc**2)*u.Msun/u.pc**2
@@ -190,7 +183,7 @@ def k13(nh, met, uv, scale = None, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 
 			rh2 = fmol/(1 - fmol)
 			sig_hi = (1 - fmol)*sig0 #assuming all neutral hydrogen
 			pth = ((np.pi*G*sig_hi**2/(4*a))*
-				  (1 + 2*rh2 + np.sqrt((1 + 2*rh2)**2 + 
+				(1 + 2*rh2 + np.sqrt((1 + 2*rh2)**2 + 
 						((32*zeta_d*a*fw*cw**2*rho_sd)/(np.pi*G*sig_hi**2)))))
 			ncnm_hydro = (pth/(1.1*c.k_B*243*u.K)).to(u.cm**-3).value
 
@@ -224,7 +217,6 @@ def s14(nh, met, uv, scale = None, fc = 1, dens_unit = u.cm**-2, scale_unit = u.
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-2) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
 	nh_ = nh/(500*u.pc.to(u.cm)) #approximate height of the disk
 
 	g = 3e-5 * met * (9.9/(1 + 8.9*met))

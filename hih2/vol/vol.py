@@ -24,7 +24,12 @@ def p24(nh, met, uv, dens_unit = u.cm**-3):
 	b = -53.9*uv**0.31
 	c = met/0.2
 	ntr= a*np.log10(d) + b + c
-	ntr[ntr < 0.1] = 0.1
+
+	try: #account for ntr not being arr-like
+		ntr[ntr < 0.1] = 0.1
+	except:
+		if ntr < 0.1:
+			ntr = 0.1
 
 	x = np.log(nh/ntr)
 
@@ -57,7 +62,7 @@ def gk11(nh, met, uv, dens_unit = u.cm**-3):
 	alpha = 5*(uv/2)/(1 + (uv/2)**2)
 	s = 0.04/(dstar + dmw)
 	g = (1 + alpha*s + s**2)/(1 + s)
-	lam = np.log(1 + g*dmw**(3/7)*(u/15)**(4/7))
+	lam = np.log(1 + g*dmw**(3/7)*(uv/15)**(4/7))
 	x = lam**(3/7) * np.log(dmw * nh/(lam*nstar))
 
 	fmol = 1/(1 + np.exp(-4*x - 3*x**3))
@@ -78,7 +83,7 @@ def gd14(nh, met, uv, scale, dens_unit = u.cm**-3, scale_unit = u.pc):
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-3) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
+	scale *= scale_unit.to(u.pc) * u.pc.to(u.cm) #convert again based on how code written
 
 	s = scale*u.cm.to(u.pc)/100
 	dmw = met
@@ -109,7 +114,7 @@ def kmt09b(nh, met, scale, uv = None, dens_unit = u.cm**-3, scale_unit = u.pc):
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-3) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
+	scale *= scale_unit.to(u.pc) * u.pc.to(u.cm) # convert again based on how code written
 
 	sig_comp = nh*scale*c.m_p.to(u.g).value #should be on 100 pc scales, but will see if this works
 
@@ -141,20 +146,15 @@ def k13(nh, met, uv, scale, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10,
 		sddens_unit (astropy units object): units attached to input rho_sd
 	"""
 	nh *= dens_unit.to(u.cm**-3) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
+	scale *= scale_unit.to(u.pc) * u.pc.to(u.cm) #convert again based on how code written
 	rho_sd *= sddens_unit.to(u.Msun/u.pc**3)
 
 	a = 5
 	cw = 8*u.km/u.s
 	fw = 0.5
 	zeta_d = 0.33
-	if type(rho_sd) == np.ndarray:
-		## accounting for input from simulation directly
-		rho_sd = rho_sd*u.Msun/(u.pc**3)
-		# print(rho_sd)
-	if type(rho_sd) != np.ndarray:
-		#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
-		rho_sd = rho_sd*u.Msun/u.pc**3 #rho_sd
+	# can set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, though
+	rho_sd = rho_sd*u.Msun/u.pc**3 #rho_sd
 	G = c.G.to(u.pc/u.Msun*(u.km/u.s)**2)
 	## since generally low fH2 regime will take Sigma_HI ~ Sigma_H (see K13, Sec. 2.2)
 	sig0 = (nh*scale*c.m_p.to(u.g).value)*(u.g/u.cm**2).to(u.Msun/u.pc**2)*u.Msun/u.pc**2
@@ -211,7 +211,7 @@ def s14(nh, met, uv, scale, fc = 1, dens_unit = u.cm**-3, scale_unit = u.pc):
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-3) # convert units if necessary
-	scale *= scale_unit.to(u.pc)
+	scale *= scale_unit.to(u.pc) * u.pc.to(u.cm) #convert again based on how code written
 
 	g = 3e-5 * met * (9.9/(1 + 8.9*met))
 	d0 = 5.8e-11*uv #s-1
