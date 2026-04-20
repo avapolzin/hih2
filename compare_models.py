@@ -209,7 +209,7 @@ def s14(nh, z, u, l, fc = 1):
 
 ### projected grid cells ###
 
-def p24_proj(nh, z, u, s):
+def p24_proj(nh, z, u, l):
 	"""
 	Return projected molecular fraction from Polzin et al. (2024)
 
@@ -217,14 +217,14 @@ def p24_proj(nh, z, u, s):
 		nh (arr-like): neutral hydrogen column density (cm^-2)
 		z (arr-like): metallicity in solar units
 		u (arr-like): normalized UV field strength
-		s (arr-like): spatial scale in pc
+		l (arr-like): spatial scale in pc
 	"""
 
 	w = 0.27 - 1e-2 * (9.25*np.log10(z)**2 + 9.64*np.log10(z))
-	ynorm = 21.96 - 0.19*np.log10(s)
+	ynorm = 21.96 - 0.19*np.log10(l)
 	y = ynorm * np.exp(-0.5*((np.log10(z) + 1.5)/6.84)**2)
 
-	corr = (1 + 0.13*np.log10(0.1/z)*np.log10(s/10))
+	corr = (1 + 0.13*np.log10(0.1/z)*np.log10(l/10))
 
 	ntr = u**w * 10**y * corr
 
@@ -236,7 +236,7 @@ def p24_proj(nh, z, u, s):
 	maxf = 1 - np.exp(-q)
 	fm = 1/(1 + 2*(1 - maxf)/maxf)
 
-	fmol = fm/(1 + np.exp(-(1 + 1.35*(1e-2/z)**0.25*(s/10)**0.6 + 3.4*(z/0.6)**(0.02))*x + np.log(fm/1.65e-4)))
+	fmol = fm/(1 + np.exp(-(1 + 1.35*(1e-2/z)**0.25*(l/10)**0.6 + 3.4*(z/0.6)**(0.02))*x + np.log(fm/1.65e-4)))
 	
 	return fmol
 
@@ -299,15 +299,13 @@ def gd14_proj(nh, z, u, l):
 	return fmol
 
 
-def kmtb_proj(nh, z, u, l):
+def kmtb_proj(nh, z):
 	"""
 	Return molecular fraction from Krumholz et al. (2009b)
 
 	Parameters: 
 		nh (arr-like): neutral hydrogen column density (cm^-2)
 		z (arr-like): metallicity in solar units
-		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
 	"""
 
 	sig_comp = nh*c.m_p.to(uu.g).value
@@ -321,18 +319,20 @@ def kmtb_proj(nh, z, u, l):
 
 	return fmol
 
-def k13_proj(nh, z, u, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
+def k13_proj(nh, z, u, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 	"""
 	Return molecular fraction from Krumholz (2013)
 
 	Parameters: 
-		nh (arr-like): neutral hydrogen number density (cm^-3)
+		nh (arr-like): neutral hydrogen column density (cm^-2)
 		z (arr-like): metallicity in solar units
 		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
 		fc (int): ~Unity on scales <~100 pc. Scales ~1 kpc -> fc = 5.
 		iter (bool): If iter, iterate niter times to compute fmol.
 		niter (int): Number of iterations since fmol necessary to compute fmol.
+		dens_unit (astropy units object): units attached to input nh
+		scale_unit (astropy units object): units attached to input scale
+		sddens_unit (astropy units object): units attached to input rho_sd
 	"""
 	a = 5
 	cw = 8*uu.km/uu.s
@@ -385,17 +385,16 @@ def k13_proj(nh, z, u, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 	return fmol
 
 
-def s14_proj(nh, z, u, l, fc = 1):
+def s14_proj(nh, z, u, fc = 1):
 	"""
 	Return molecular fraction from Sternberg et al. (2014)
 
 	Following Diemer et al. (2018), Section C.5
 
 	Parameters: 
-		nh (arr-like): neutral hydrogen number density (cm^-3)
+		nh (arr-like): neutral hydrogen column density (cm^-2)
 		z (arr-like): metallicity in solar units
 		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
 		fc (int): clumping factor
 	"""
 	nh_ = nh/(500*uu.pc.to(uu.cm)) #approximate height of the disk

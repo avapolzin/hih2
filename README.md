@@ -1,7 +1,7 @@
 # `hih2`
 Atomic-to-molecular hydrogen transition models for astrophysical simulations.
 
-To install:
+To install (**under construction**):
 ```bash
 cd ~
 
@@ -27,7 +27,7 @@ Included models are:
 
 Volumetric models are in `hih2.vol` and projected models are in `hih2.proj`. All syntax is the same between those modules. It's very simple, so the docstrings are largely sufficient and limited documentation follows here:
 
-All models take as arguments `nh` (hydrogen number density if `hih2.vol` -- cm<sup>-3</sup> by default -- or hydrogen column density if `hih2.proj` -- cm<sup>-2</sup> by default) and `met` (solar-scaled metallicity). `gk11()`, `k13()`, `s14()`, and `p24()` require `uv` (UV field strength). All of the functions in `hih2.proj` also require an `scale` argument, is the size of the grid cells (by default in cm). `hih2.vol.gd14()`, `kmt09b`, `k13`, and `s14` also take a `scale` argument, which follows the convention of `hih2.proj`.
+All models take as arguments `nh` (hydrogen number density if `hih2.vol` -- cm<sup>-3</sup> by default -- or hydrogen column density if `hih2.proj` -- cm<sup>-2</sup> by default) and `met` (solar-scaled metallicity). `gk11()`, `k13()`, `s14()`, and `p24()` require `uv` (UV field strength). `hih2.proj.gd14()` and `p24()` also require an `scale` argument, which is the size of the grid cells (by default in pc). `hih2.vol.gd14()`, `kmt09b`, `k13`, and `s14` also take a `scale` argument, which follows the convention of `hih2.proj`.
 
 Both `k13()` and `s14()` functions also take a clumping factor argument, `fc`, and `k13()` additionally takes `rho_sd` (density of stars and dark matter, by default in M<sub>&#9737;</sub> pc<sup>-3</sup>), `iterate` (toggles whether values are computed iteratively), and `niter` (if `iterate = True`, sets number of interations). 
 
@@ -35,7 +35,9 @@ All functions take `dens_unit`, which takes `astropy.units` objects to set the u
 
 Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/(HI + H<sub>2</sub>)) for the input gas density, metallicity, and UV field strength. The implicit assumption of these models is that all gas is neutral and that any ionized component is negligible.
 
-**Why is this a package?** Good question. It's very easy to implement these HI-H<sub>2</sub> models yourself either from the literature or from code examples (see [compare_models.py](https://github.com/avapolzin/blob/main/compare_models.py) for functions on their own), but some people may prefer a quick install/import. 
+Required arguments are summarized in the tables below.
+
+**Why is this a package?** Good question. It's very easy to implement these HI-H<sub>2</sub> models yourself either from the literature or from code examples (see [compare_models.py](https://github.com/avapolzin/hih2/blob/main/compare_models.py) for functions on their own), but some people may prefer a quick install/import. See the Appendix in [Polzin et al. (2024a)](https://ui.adsabs.harvard.edu/abs/2024ApJ...966..172P/abstract) for details of how the models included here are implemented.
 
 **Summary of required and optional parameters in models included in `hih2.vol`**
 | Model | n<sub>H</sub> | metallicity | UV field | scale | f<sub>c</sub> | &rho;<sub>SD</sub> |
@@ -44,20 +46,22 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
 | `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\color{yellow}{\textit{Default = 1}}$ | $\color{yellow}{\textit{Default = 0.01}}$| 
 | `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\color{yellow}{\textit{Default = 1}}$| | 
-| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
+| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | | 
 | `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | | 
 
 **Summary of required and optional parameters in models included in `hih2.proj`**
 | Model | N<sub>H</sub> | metallicity | UV field | scale | f<sub>c</sub> | &rho;<sub>SD</sub> |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ |  |  ${\color{red}Required}$| | | 
-| `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | | 
-| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\color{yellow}{\textit{Default = 1}}$| $\color{yellow}{\textit{Default = 0.01}}$| 
-| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | $\color{yellow}{\textit{Default = 1}}$ | | 
-| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ |  | ${\color{red}Required}$ | | | 
+| `kmt09b` | ${\color{red}Required}$ | ${\color{red}Required}$ | | | | | 
+| `gk11` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | |  | | 
+| `k13` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | $\color{yellow}{\textit{Default = 1}}$| $\color{yellow}{\textit{Default = 0.01}}$| 
+| `s14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ |  | $\color{yellow}{\textit{Default = 1}}$ | | 
+| `gd14` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | | 
 | `p24` | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | ${\color{red}Required}$ | | | 
 
 
-**How can I access the models in a simple script?** Just like `hih2`, [compare_models.py](https://github.com/avapolzin/blob/main/compare_models.py) includes functions for each of the models on a cell-by-cell basis and projected on different scales; models are stored for use in Python.
+**How can I access the models in a simple script?** Just like `hih2`, [compare_models.py](https://github.com/avapolzin/hih2/blob/main/compare_models.py) includes functions for each of the models on a cell-by-cell basis and projected on different scales; models are stored for use in Python.
 
 I will add C/C++ code in the near future. As always, the idea is for these functions to be easily callable. One can always refer to the original papers to examine the details of the different HI-H<sub>2</sub> models.
+
+**Do you want to see a model added?** Feel free to open a PR including a new model or open an issue requesting one. In each case, please include a link to the paper in which the model is published.
