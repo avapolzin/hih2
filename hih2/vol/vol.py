@@ -72,8 +72,8 @@ def gd14(nh, met, scale, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
 	Parameters: 
 		nh (arr-like): neutral hydrogen number density (cm^-3 by default)
 		met (arr-like): metallicity in solar units
-		scale (arr-like): scale of grid cell in cm
-		uv (arr-like): normalized UV field strength
+		scale (arr-like): scale of grid cell (cm by default)
+		uv (arr-like): normalized UV field strength (not required)
 		dens_unit (astropy units object): units attached to input nh
 		scale_unit (astropy units object): units attached to input scale
 	"""
@@ -97,49 +97,53 @@ def gd14(nh, met, scale, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
 
 	return fmol
 
-def kmt09b(nh, z, l, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
+def kmt09b(nh, met, scale, uv = None, dens_unit = u.cm**-3, scale_unit = u.cm):
 	"""
 	Return molecular fraction from Krumholz et al. (2009b)
 
 	Parameters: 
-		nh (arr-like): neutral hydrogen number density (cm^-3)
-		z (arr-like): metallicity in solar units
-		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
+		nh (arr-like): neutral hydrogen number density (cm^-3 by default)
+		met (arr-like): metallicity in solar units
+		scale (arr-like): scale of grid cell (cm by default)
+		uv (arr-like): normalized UV field strength (not required)
 		dens_unit (astropy units object): units attached to input nh
 		scale_unit (astropy units object): units attached to input scale
 	"""
 	nh *= dens_unit.to(u.cm**-3).value # convert units if necessary
 	scale *= scale_unit.to(u.cm).value
 
-	sig_comp = nh*l*c.m_p.to(uu.g).value #should be on 100 pc scales, but will see if this works
+	sig_comp = nh*scale*c.m_p.to(u.g).value #should be on 100 pc scales, but will see if this works
 
 	chi = 0.77*(1 + 3.1*z**0.365)
-	sig0 = sig_comp/(1*(uu.Msun/uu.pc**2).to(uu.g/uu.cm**2))
-	s = np.log(1 + 0.6*chi)/(0.04*sig0 * z)
+	sig0 = sig_comp/(1*(u.Msun/u.pc**2).to(u.g/u.cm**2))
+	s = np.log(1 + 0.6*chi)/(0.04*sig0 * met)
 	delta = 0.0712*(0.1/s + 0.675)**(-2.8)
 
 	fmol = 1 - (1 + ((3/4) * (s/(1 + delta)))**(-5))**(-1/5)
 
 	return fmol
 
-def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10, dens_unit = u.cm**-3, scale_unit = u.cm):
+def k13(nh, met, uv, scale, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10, 
+		dens_unit = u.cm**-3, scale_unit = u.cm, sddens_unit = u.Msun/u.pc**3):
 	"""
 	Return molecular fraction from Krumholz (2013)
 
 	Parameters: 
-		nh (arr-like): neutral hydrogen number density (cm^-3)
-		z (arr-like): metallicity in solar units
-		u (arr-like): normalized UV field strength
-		l (arr-like): scale of grid cell in cm
+		nh (arr-like): neutral hydrogen number density (cm^-3 by default)
+		met (arr-like): metallicity in solar units
+		uv (arr-like): normalized UV field strength
+		scale (arr-like): scale of grid cell (cm by default)
+		rho_sd (arr-like): density of stars and dark matter (Msun/pc^3 by default)
 		fc (int) : ~Unity on scales <~100 pc. Scales ~1 kpc -> fc = 5.
 		iter (bool): If iter, iterate niter times to compute fmol.
 		niter (int): Number of iterations since fmol necessary to compute fmol.
 		dens_unit (astropy units object): units attached to input nh
 		scale_unit (astropy units object): units attached to input scale
+		sddens_unit (astropy units object): units attached to input rho_sd
 	"""
 	nh *= dens_unit.to(u.cm**-3).value # convert units if necessary
 	scale *= scale_unit.to(u.cm).value
+	rho_sd *= sddens_unit.to(u.Msun/u.pc**3).value
 
 	a = 5
 	cw = 8*u.km/u.s
@@ -154,15 +158,15 @@ def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10, dens_unit
 		rho_sd = rho_sd#*uu.Msun/uu.pc**3 #rho_sd
 	G = c.G.to(u.pc/u.Msun*(u.km/u.s)**2)
 	## since generally low fH2 regime will take Sigma_HI ~ Sigma_H (see K13, Sec. 2.2)
-	sig0 = (nh*l*c.m_p.to(u.g).value)*(u.g/u.cm**2).to(u.Msun/u.pc**2)*u.Msun/u.pc**2
-	ncnm_2p = 23*u*(4.1/(1 + 3.1*z**0.365)) #cm-3
+	sig0 = (nh*scale*c.m_p.to(u.g).value)*(u.g/u.cm**2).to(u.Msun/u.pc**2)*u.Msun/u.pc**2
+	ncnm_2p = 23*uv*(4.1/(1 + 3.1*met**0.365)) #cm-3
 	if not iter_:
 		ncnm_hydro = (np.sqrt(2*np.pi*G*zeta_d*fw*rho_sd/a) * (cw/(1.1*c.k_B*243*u.K))*sig0).to(u.cm**-3).value
 
 		ncnm = np.maximum(ncnm_2p, ncnm_hydro)
 		chi = 7.2*uv*(ncnm/10)**(-1)
 
-		tau_c = 0.066*fc*z*sig0.value
+		tau_c = 0.066*fc*met*sig0.value
 		s = np.log(1 + 0.6*chi + 0.01*chi**2)/(0.6*tau_c)
 
 		fmol = 1 - (3/4)*s/(1 + 0.25 * s)
@@ -182,7 +186,7 @@ def k13(nh, z, uv, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10, dens_unit
 			ncnm = np.maximum(ncnm_2p, ncnm_hydro)
 			chi = 7.2*uv*(ncnm/10)**(-1)
 
-			tau_c = 0.066*fc*z*sig0.value
+			tau_c = 0.066*fc*met*sig0.value
 			s = np.log(1 + 0.6*chi + 0.01*chi**2)/(0.6*tau_c)
 
 			new_fmol = 1 - (3/4)*s/(1 + 0.25 * s)
@@ -199,10 +203,10 @@ def s14(nh, met, uv, scale, fc = 1, dens_unit = u.cm**-3, scale_unit = u.cm):
 	Following Diemer et al. (2018), Section C.5
 
 	Parameters: 
-		nh (arr-like): neutral hydrogen number density (cm^-3)
+		nh (arr-like): neutral hydrogen number density (cm^-3 by default)
 		met (arr-like): metallicity in solar units
 		uv (arr-like): normalized UV field strength
-		scale (arr-like): scale of grid cell in cm
+		scale (arr-like): scale of grid cell (cm by default)
 		fc (int): clumping factor
 		dens_unit (astropy units object): units attached to input nh
 		scale_unit (astropy units object): units attached to input scale

@@ -35,14 +35,14 @@ All functions take `dens_unit`, which takes `astropy.units` objects to set the u
 
 Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/(HI + H<sub>2</sub>)) for the input gas density, metallicity, and UV field strength. The implicit assumption of these models is that all gas is neutral and that any ionized component is negligible.
 
-**Why is this a package?** Good question. It's very easy to implement these HI-H<sub>2</sub> models yourself either from the literature or from code examples (see [avapolzin/hydrogen_models](https://github.com/avapolzin/hydrogen_models) for functions on their own), but some people may prefer a quick install/import. 
+**Why is this a package?** Good question. It's very easy to implement these HI-H<sub>2</sub> models yourself either from the literature or from code examples (see [compare_models.py](https://github.com/avapolzin/blob/main/compare_models.py) for functions on their own), but some people may prefer a quick install/import. 
 
 **Summary of required and optional parameters in models included in `hih2.vol`**
 | Model | n<sub>H</sub> | metallicity | UV field | scale | f<sub>c</sub> | &rho;<sub>SD</sub> |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `kmt09b` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  |  $${\color{red}Required}$$| | | 
 | `gk11` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
-| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| 
+| `k13` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$ | $${\color{yellow}De\!fault}$$  $${\color{yellow}provided}$$| 
 | `s14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{yellow}Default}$$  $${\color{yellow}provided}$$| | 
 | `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
 | `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | | | 
@@ -57,3 +57,7 @@ Each function returns the molecular hydrogen fraction (defined as H<sub>2</sub>/
 | `gd14` | $${\color{red}Required}$$ | $${\color{red}Required}$$ |  | $${\color{red}Required}$$ | | | 
 | `p24` | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | $${\color{red}Required}$$ | | | 
 
+
+**How can I access the models in a simple script?** Just like `hih2`, [compare_models.py](https://github.com/avapolzin/blob/main/compare_models.py) includes functions for each of the models on a cell-by-cell basis and projected on different scales; models are stored for use in Python.
+
+I will add C/C++ code in the near future. As always, the idea is for these functions to be easily callable. One can always refer to the original papers to examine the details of the different HI-H<sub>2</sub> models.
