@@ -132,13 +132,8 @@ def k13(nh, z, u, l, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 	cw = 8*uu.km/uu.s
 	fw = 0.5
 	zeta_d = 0.33
-	if type(rho_sd) == np.ndarray:
-		## accounting for input from simulation directly
-		rho_sd = rho_sd*uu.Msun/(uu.pc**3)
-		# print(rho_sd)
-	if type(rho_sd) != np.ndarray:
-		#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
-		rho_sd = rho_sd#*uu.Msun/uu.pc**3 #rho_sd
+	#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
+	rho_sd = rho_sd*uu.Msun/uu.pc**3 #rho_sd
 	G = c.G.to(uu.pc/uu.Msun*(uu.km/uu.s)**2)
 	## since generally low fH2 regime will take Sigma_HI ~ Sigma_H (see K13, Sec. 2.2)
 	sig0 = (nh*l*c.m_p.to(uu.g).value)*(uu.g/uu.cm**2).to(uu.Msun/uu.pc**2)*uu.Msun/uu.pc**2
@@ -338,12 +333,8 @@ def k13_proj(nh, z, u, rho_sd = 1e-2, fc = 1, iter_ = True, niter = 10):
 	cw = 8*uu.km/uu.s
 	fw = 0.5
 	zeta_d = 0.33
-	if type(rho_sd) == np.ndarray:
-		## accounting for input from simulation directly
-		rho_sd = rho_sd*uu.Msun/(uu.pc**3)
-	if type(rho_sd) != np.ndarray:
-		#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
-		rho_sd = rho_sd*uu.Msun/uu.pc**3 #rho_sd
+	#set single value between 1e-5 and 1e-1 Msun/pc**3 -- varies with galaxy structure, will use constant for now
+	rho_sd = rho_sd*uu.Msun/uu.pc**3 #rho_sd
 	G = c.G.to(uu.pc/uu.Msun*(uu.km/uu.s)**2)
 	## since generally low fH2 regime will take Sigma_HI ~ Sigma_H (see K13, Sec. 2.2)
 	sig0 = (nh*c.m_p.to(uu.g).value)*(uu.g/uu.cm**2).to(uu.Msun/uu.pc**2)*uu.Msun/uu.pc**2
