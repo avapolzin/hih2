@@ -25,11 +25,7 @@ def p24(nh, met, uv, dens_unit = u.cm**-3):
 	c = met/0.2
 	ntr= a*np.log10(d) + b + c
 
-	try: #account for ntr not being arr-like
-		ntr[ntr < 0.1] = 0.1
-	except:
-		if ntr < 0.1:
-			ntr = 0.1
+	ntr = np.minimum(ntr, 0.1)
 
 	x = np.log(nh/ntr)
 
